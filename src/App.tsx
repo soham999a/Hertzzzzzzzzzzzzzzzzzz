@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { ThemeProvider } from "next-themes";
 import { PlayerProvider } from "@/contexts/PlayerContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { FrequencyWaveBackground } from "@/components/FrequencyWaveBackground";
@@ -92,9 +93,10 @@ function AnimatedRoutes() {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <PlayerProvider>
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+      <AuthProvider>
+        <TooltipProvider>
+          <PlayerProvider>
           <AmbientParticles />
           <FrequencyWaveBackground zIndex={1} />
           <div className="fixed inset-0 z-[2] pointer-events-none bg-dot-grid" />
@@ -113,6 +115,7 @@ const App = () => (
         </PlayerProvider>
       </TooltipProvider>
     </AuthProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
