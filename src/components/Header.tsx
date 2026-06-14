@@ -14,6 +14,20 @@ const NAV_ITEMS = [
   { path: '/premium', label: 'Premium', icon: Sparkles },
 ];
 
+function ThemeToggleButton() {
+  const { toggleTheme } = useTheme();
+  return (
+    <button
+      onClick={toggleTheme}
+      className="p-2 rounded-xl hover:bg-white/5 transition-colors text-muted-foreground/50 hover:text-foreground flex-shrink-0"
+      aria-label="Toggle theme"
+    >
+      <Sun className="w-4 h-4 hidden dark:block" />
+      <Moon className="w-4 h-4 block dark:hidden" />
+    </button>
+  );
+}
+
 export function Header() {
   const { user, signOut } = useAuth();
   const location = useLocation();
@@ -81,19 +95,7 @@ export function Header() {
               </nav>
 
               {/* Theme Toggle */}
-              <button
-                onClick={() => {
-                  const root = document.documentElement;
-                  const isDark = root.classList.contains('dark');
-                  root.classList.toggle('dark');
-                  localStorage.setItem('hertz-theme', isDark ? 'light' : 'dark');
-                }}
-                className="p-2 rounded-xl hover:bg-white/5 transition-colors text-muted-foreground/50 hover:text-foreground flex-shrink-0"
-                aria-label="Toggle theme"
-              >
-                <Sun className="w-4 h-4 hidden dark:block" />
-                <Moon className="w-4 h-4 block dark:hidden" />
-              </button>
+              <ThemeToggleButton />
 
               {/* Auth */}
               <div className="flex items-center gap-3 flex-shrink-0">
