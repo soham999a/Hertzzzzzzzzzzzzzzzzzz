@@ -2,6 +2,7 @@ import React, { createContext, useContext, ReactNode } from 'react';
 import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 import { useFavorites } from '@/hooks/useFavorites';
 import { RadioStation } from '@/types/radio';
+import { SleepDuration } from '@/hooks/useSleepTimer';
 
 interface PlayerContextType {
   currentStation: RadioStation | null;
@@ -17,6 +18,11 @@ interface PlayerContextType {
   favorites: RadioStation[];
   isFavorite: (stationId: string) => boolean;
   toggleFavorite: (station: RadioStation) => void;
+  recent: RadioStation[];
+  sleepTimerRemaining: string | null;
+  sleepTimerActive: boolean;
+  startSleepTimer: (mins: SleepDuration) => void;
+  cancelSleepTimer: () => void;
 }
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -34,8 +40,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
 export function usePlayer() {
   const context = useContext(PlayerContext);
-  if (!context) {
-    throw new Error('usePlayer must be used within a PlayerProvider');
-  }
+  if (!context) throw new Error('usePlayer must be used within a PlayerProvider');
   return context;
 }

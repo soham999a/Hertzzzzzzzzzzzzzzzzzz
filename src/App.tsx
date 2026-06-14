@@ -7,7 +7,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { PlayerProvider } from "@/contexts/PlayerContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { FrequencyWaveBackground } from "@/components/FrequencyWaveBackground";
-import { HertzShaderBackground } from "@/components/HertzShaderBackground";
+import { AmbientParticles } from "@/components/AmbientParticles";
+import { Header } from "@/components/Header";
+import { AudioPlayer } from "@/components/AudioPlayer";
 import Index from "./pages/Index";
 import Favorites from "./pages/Favorites";
 import Regions from "./pages/Regions";
@@ -93,9 +95,10 @@ const App = () => (
     <AuthProvider>
       <TooltipProvider>
         <PlayerProvider>
-          <HertzShaderBackground />
+          <AmbientParticles />
           <FrequencyWaveBackground zIndex={1} />
           <div className="fixed inset-0 z-[2] pointer-events-none bg-dot-grid" />
+          <Header />
           <Toaster />
           <Sonner />
           <BrowserRouter
@@ -106,6 +109,7 @@ const App = () => (
           >
             <AnimatedRoutes />
           </BrowserRouter>
+          <AudioPlayer />
         </PlayerProvider>
       </TooltipProvider>
     </AuthProvider>

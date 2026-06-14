@@ -278,4 +278,35 @@
 
   .text-balance { text-wrap: balance; }
   .text-pretty { text-wrap: pretty; }
+
+  /* ── Gold Shimmer ── */
+  .shimmer-gold {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 182, 144, 0.06) 40%,
+      rgba(255, 182, 144, 0.12) 50%,
+      rgba(255, 182, 144, 0.06) 60%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* ── Scale Tap ── */
+  .tap-scale {
+    transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tap-scale:active {
+    transform: scale(0.94);
+  }
+
+  /* ── Glass Inset ── */
+  .glass-inset {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
 }
