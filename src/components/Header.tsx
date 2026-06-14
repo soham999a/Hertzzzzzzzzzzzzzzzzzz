@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Radio, Sparkles, Heart, Trophy, Podcast, Menu, X, Sun, Moon } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useState, useEffect } from 'react';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/lib/ThemeProvider';
 import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
@@ -20,21 +20,6 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => { setMobileOpen(false); }, [location.pathname]);
-
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-
-  return (
-    <button
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="p-2 rounded-xl hover:bg-white/5 transition-colors text-muted-foreground/50 hover:text-foreground flex-shrink-0"
-      aria-label="Toggle theme"
-    >
-      <Sun className="w-4 h-4 hidden dark:block" />
-      <Moon className="w-4 h-4 block dark:hidden" />
-    </button>
-  );
-}
 
   return (
     <>
@@ -96,7 +81,19 @@ function ThemeToggle() {
               </nav>
 
               {/* Theme Toggle */}
-              <ThemeToggle />
+              <button
+                onClick={() => {
+                  const root = document.documentElement;
+                  const isDark = root.classList.contains('dark');
+                  root.classList.toggle('dark');
+                  localStorage.setItem('hertz-theme', isDark ? 'light' : 'dark');
+                }}
+                className="p-2 rounded-xl hover:bg-white/5 transition-colors text-muted-foreground/50 hover:text-foreground flex-shrink-0"
+                aria-label="Toggle theme"
+              >
+                <Sun className="w-4 h-4 hidden dark:block" />
+                <Moon className="w-4 h-4 block dark:hidden" />
+              </button>
 
               {/* Auth */}
               <div className="flex items-center gap-3 flex-shrink-0">
