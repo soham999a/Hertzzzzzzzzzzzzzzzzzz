@@ -1,72 +1,119 @@
 import { motion } from 'framer-motion';
-import { Heart, Radio, Crown, Star } from 'lucide-react';
-import { usePlayer } from '@/contexts/PlayerContext';
+import { Heart, Lock, Music } from 'lucide-react';
 import { StationCard } from '@/components/StationCard';
-import { Header } from '@/components/Header';
-import { AudioPlayer } from '@/components/AudioPlayer';
-import { Link } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { usePlayer } from '@/contexts/PlayerContext';
+import { NavLink } from 'react-router-dom';
 
 export default function Favorites() {
-  const { favorites, isPremium, favoritesLimit, favoritesRemaining } = usePlayer();
+  const { user } = useAuth();
+  const { favorites } = usePlayer();
+
+  if (!user) {
+    return (
+      <main className="min-h-screen flex items-center justify-center pt-4 pb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="glass-card rounded-2xl p-8 md:p-10 text-center max-w-sm mx-auto mx-4"
+        >
+          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+            <Lock className="w-6 h-6 text-primary/60" />
+          </div>
+          <h2 className="font-bold text-lg text-foreground mb-1">Sign in required</h2>
+          <p className="text-sm text-muted-foreground/60 mb-4 text-pretty">
+            Sign in to save your favorite stations and access them across devices.
+          </p>
+          <NavLink
+            to="/"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-primary bg-primary/10 px-4 py-2 rounded-xl hover:bg-primary/15 transition-colors"
+          >
+            Back to Explore
+          </NavLink>
+        </motion.div>
+      </main>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-background pb-28 sm:pb-0">
-      <Header />
+    <main className="min-h-screen pt-4 pb-20">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[300px] bg-gradient-gold/5 blur-[100px] rounded-full pointer-events-none" />
 
-      <main className="max-w-2xl mx-auto px-4 py-6">
+      <div className="max-w-5xl mx-auto px-4 md:px-6">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-          <div className="flex items-center gap-2 mb-1">
-            <Heart className="w-4 h-4 text-red-400" />
-            <span className="text-[10px] font-bold text-primary uppercase tracking-[0.15em]">Saved</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <h1 className="font-display text-2xl font-bold text-foreground">My Stations</h1>
-            {!isPremium && (
-              <div className="text-xs text-muted-foreground/60">{favorites.length}/{favoritesLimit} saved</div>
-            )}
-          </div>
-          <div className="gold-bar mt-3 w-16" />
-        </motion.div>
+        <div className="mb-6">
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card text-xs font-medium mb-4"
+          >
+            <Heart className="w-3.5 h-3.5 text-primary" />
+            <span className="text-primary/80">Your Collection</span>
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground"
+          >
+            Favorites
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-sm text-muted-foreground/60 mt-1"
+          >
+            {favorites.length} {favorites.length === 1 ? 'station' : 'stations'} saved
+          </motion.p>
+        </div>
 
-        {/* Limit Warning */}
-        {!isPremium && favorites.length >= favoritesLimit - 1 && (
-          <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="mb-4 p-3 rounded-xl glass-card border border-amber-500/20">
-            <div className="flex items-start gap-2">
-              <Crown className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-              <div className="flex-1">
-                <p className="text-xs text-foreground font-medium">
-                  {favoritesRemaining === 0 ? 'Favorites limit reached!' : `Only ${favoritesRemaining} slot remaining`}
-                </p>
-                <p className="text-[10px] text-muted-foreground/70 mt-0.5">
-                  <Link to="/premium" className="text-primary hover:underline">Upgrade to Pro</Link> for unlimited favorites
-                </p>
-              </div>
+        {/* Limit warning */}
+        {favorites.length >= 5 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass-card rounded-2xl p-4 mb-5 flex items-center gap-3"
+          >
+            <div className="w-9 h-9 rounded-xl bg-gradient-gold/15 flex items-center justify-center flex-shrink-0">
+              <Music className="w-4.5 h-4.5 text-primary" style={{ width: 18, height: 18 }} />
             </div>
+            <p className="text-xs text-muted-foreground/70">
+              Upgrade to Premium for unlimited favorites, HD audio, and an ad-free experience.
+            </p>
+            <NavLink
+              to="/premium"
+              className="text-xs font-bold text-primary whitespace-nowrap hover:underline"
+            >
+              Upgrade
+            </NavLink>
           </motion.div>
         )}
 
         {/* List */}
-        {favorites.length > 0 ? (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col gap-3">
-            {favorites.map((station, index) => (
-              <StationCard key={station.id} station={station} index={index} />
-            ))}
-          </motion.div>
-        ) : (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center justify-center py-20">
-            <div className="w-20 h-20 rounded-2xl glass-card flex items-center justify-center mb-5">
-              <Radio className="w-9 h-9 text-muted-foreground/30" />
+        {favorites.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="glass-card rounded-2xl p-10 text-center"
+          >
+            <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <Heart className="w-6 h-6 text-primary/40" />
             </div>
-            <h2 className="font-display text-lg font-semibold text-foreground mb-2">No favorites yet</h2>
-            <p className="text-sm text-muted-foreground/60 text-center max-w-xs">
+            <h3 className="font-bold text-base text-foreground mb-1">No favorites yet</h3>
+            <p className="text-sm text-muted-foreground/60 text-pretty max-w-xs mx-auto">
               Tap the heart icon on any station to save it here for quick access.
             </p>
           </motion.div>
+        ) : (
+          <div className="space-y-3">
+            {favorites.map((station, i) => (
+              <StationCard key={station.id} station={station} index={i} />
+            ))}
+          </div>
         )}
-      </main>
-
-      <AudioPlayer />
-    </div>
+      </div>
+    </main>
   );
 }

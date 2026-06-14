@@ -1,155 +1,156 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Header } from '@/components/Header';
-import { AudioPlayer } from '@/components/AudioPlayer';
+import { Trophy, Headphones, Heart, Zap, Star, Clock, Radio } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
-import { Trophy, Star, Headphones, Calendar, Flame, Music2, Crown, Lock, Sparkles } from 'lucide-react';
+import { usePlayer } from '@/contexts/PlayerContext';
+import { NavLink } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Link } from 'react-router-dom';
 
-interface RewardData {
-  points: number;
-  listens: number;
-  lastListened?: number;
-  badges?: string[];
-}
-
-const BADGE_DEFS = [
-  { id: 'first_listen', label: 'First Listen', icon: Headphones, desc: 'Play your first station', require: { listens: 1 } },
-  { id: 'explorer', label: 'Explorer', icon: Music2, desc: 'Listen to 10 stations', require: { listens: 10 } },
-  { id: 'dedicated', label: 'Dedicated', icon: Flame, desc: 'Listen to 50 stations', require: { listens: 50 } },
-  { id: 'superfan', label: 'Superfan', icon: Star, desc: 'Listen to 100 stations', require: { listens: 100 } },
-  { id: 'veteran', label: 'Veteran', icon: Crown, desc: 'Listen to 500 stations', require: { listens: 500 } },
+const BADGES = [
+  { id: 'first_listen', name: 'First Listen', icon: Headphones, desc: 'Listen to your first station' },
+  { id: 'explorer', name: 'Explorer', icon: Radio, desc: 'Try stations from 3 regions' },
+  { id: 'collector', name: 'Collector', icon: Heart, desc: 'Save 10 favorite stations' },
+  { id: 'dedicated', name: 'Dedicated', icon: Clock, desc: 'Listen for 10 hours total' },
+  { id: 'superfan', name: 'Superfan', icon: Star, desc: 'Listen for 50 hours total' },
+  { id: 'globetrotter', name: 'Globetrotter', icon: Zap, desc: 'Try stations from every region' },
 ];
-
-const POINTS_PER_LISTEN = 1;
-const POINTS_FOR_FAVORITE = 5;
 
 export default function Rewards() {
   const { user } = useAuth();
-  const [reward, setReward] = useState<RewardData>({ points: 0, listens: 0, badges: [] });
+  const { favorites } = usePlayer();
 
-  useEffect(() => {
-    if (!user) return;
-    getDoc(doc(db, 'rewards', user.uid)).then((snap) => {
-      if (snap.exists()) setReward(snap.data() as RewardData);
-    });
-  }, [user]);
-
-  const earnedBadges = BADGE_DEFS.filter((b) => reward.listens >= b.require.listens);
-  const lockedBadges = BADGE_DEFS.filter((b) => reward.listens < b.require.listens);
-  const nextBadge = lockedBadges[0];
+  const STATS = [
+    { label: 'Favorites', value: favorites.length.toLocaleString(), icon: Headphones },
+    { label: 'Listening Time', value: '0h 0m', icon: Clock },
+    { label: 'Badges', value: `0 / ${BADGES.length}`, icon: Trophy },
+  ];
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-background pb-28">
-        <Header />
-        <div className="max-w-2xl mx-auto px-4 pt-20 text-center">
-          <div className="w-20 h-20 rounded-2xl glass-card flex items-center justify-center mx-auto mb-5">
-            <Trophy className="w-9 h-9 text-muted-foreground/40" />
+      <main className="min-h-screen flex items-center justify-center pt-4 pb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="glass-card rounded-2xl p-8 md:p-10 text-center max-w-sm mx-4"
+        >
+          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
+            <Trophy className="w-6 h-6 text-primary/60" />
           </div>
-          <h1 className="font-display text-3xl font-bold text-foreground mb-2">Sign in required</h1>
-          <p className="text-muted-foreground/60">Please sign in to view your rewards.</p>
-        </div>
-      </div>
+          <h2 className="font-bold text-lg text-foreground mb-1">Sign in required</h2>
+          <p className="text-sm text-muted-foreground/60 mb-4 text-pretty">
+            Sign in to track your listening stats and earn badges.
+          </p>
+          <NavLink
+            to="/"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-primary bg-primary/10 px-4 py-2 rounded-xl hover:bg-primary/15 transition-colors"
+          >
+            Back to Explore
+          </NavLink>
+        </motion.div>
+      </main>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background pb-28 sm:pb-0">
-      <Header />
-      <main className="max-w-2xl mx-auto px-4 py-6">
+    <main className="min-h-screen pt-4 pb-20">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[300px] bg-gradient-gold/5 blur-[100px] rounded-full pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto px-4 md:px-6">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-          <div className="flex items-center gap-2 mb-1">
-            <Trophy className="w-4 h-4 text-amber-400" />
-            <span className="text-[10px] font-bold text-amber-400 uppercase tracking-[0.15em]">Rewards</span>
-          </div>
-          <h1 className="font-display text-2xl font-bold text-foreground">Earn points & badges</h1>
-          <p className="text-sm text-muted-foreground/60 mt-1">Listen to stations and unlock achievements</p>
-        </motion.div>
+        <div className="mb-6">
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card text-xs font-medium mb-4"
+          >
+            <Trophy className="w-3.5 h-3.5 text-primary" />
+            <span className="text-primary/80">Your Achievements</span>
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground"
+          >
+            Rewards
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-sm text-muted-foreground/60 mt-1"
+          >
+            Listen more, earn badges, unlock prestige
+          </motion.p>
+        </div>
 
-        {/* Stats */}
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="grid grid-cols-2 gap-3 mb-6">
-          <div className="rounded-2xl glass-card border border-white/5 p-5 text-center">
-            <Trophy className="w-7 h-7 text-amber-400 mx-auto mb-2" />
-            <div className="text-3xl font-bold text-foreground">{reward.points}</div>
-            <div className="text-[10px] text-muted-foreground/50 uppercase tracking-wider mt-1">Points</div>
-          </div>
-          <div className="rounded-2xl glass-card border border-white/5 p-5 text-center">
-            <Headphones className="w-7 h-7 text-primary mx-auto mb-2" />
-            <div className="text-3xl font-bold text-foreground">{reward.listens}</div>
-            <div className="text-[10px] text-muted-foreground/50 uppercase tracking-wider mt-1">Listens</div>
-          </div>
-        </motion.div>
-
-        {/* How to earn */}
-        <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
-          <p className="text-[10px] font-bold text-muted-foreground/50 uppercase tracking-[0.15em] mb-3">How to earn</p>
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between p-3 rounded-xl glass-card border border-white/5">
-              <div className="flex items-center gap-2">
-                <Headphones className="w-4 h-4 text-primary" />
-                <span className="text-sm">Listen to a station</span>
-              </div>
-              <span className="text-[10px] font-bold text-primary">+{POINTS_PER_LISTEN} pt</span>
-            </div>
-            <div className="flex items-center justify-between p-3 rounded-xl glass-card border border-white/5">
-              <div className="flex items-center gap-2">
-                <Star className="w-4 h-4 text-amber-400" />
-                <span className="text-sm">Favorite a station</span>
-              </div>
-              <span className="text-[10px] font-bold text-amber-400">+{POINTS_FOR_FAVORITE} pts</span>
-            </div>
-          </div>
-        </motion.section>
+        {/* Stat Cards */}
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          {STATS.map(({ label, value, icon: Icon }, i) => (
+            <motion.div
+              key={label}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + i * 0.05 }}
+              className="glass-card rounded-2xl p-4"
+            >
+              <Icon className="w-4 h-4 text-primary/50 mb-2" />
+              <p className="text-lg font-bold text-foreground">{value}</p>
+              <p className="text-[10px] text-muted-foreground/50 uppercase tracking-wider mt-0.5">{label}</p>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Badges */}
-        <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="mb-6">
-          <p className="text-[10px] font-bold text-muted-foreground/50 uppercase tracking-[0.15em] mb-3">Badges</p>
-          <div className="grid grid-cols-3 gap-3">
-            {earnedBadges.map((badge) => (
-              <div key={badge.id} className="rounded-xl glass-card border border-amber-500/20 p-4 text-center">
-                <div className="w-10 h-10 rounded-full bg-gradient-gold-dark/30 flex items-center justify-center mx-auto mb-2 shadow-[0_0_12px_rgba(255,182,144,0.1)]">
-                  <badge.icon className="w-5 h-5 text-amber-400" />
-                </div>
-                <div className="text-xs font-semibold text-foreground">{badge.label}</div>
-                <div className="text-[9px] text-muted-foreground/50 mt-0.5">{badge.desc}</div>
-              </div>
-            ))}
-            {lockedBadges.map((badge) => (
-              <div key={badge.id} className="rounded-xl glass-card border border-white/5 p-4 text-center opacity-40">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-2">
-                  <Lock className="w-4 h-4 text-muted-foreground/40" />
-                </div>
-                <div className="text-xs font-semibold text-muted-foreground/60">{badge.label}</div>
-                <div className="text-[9px] text-muted-foreground/40 mt-0.5">{badge.desc}</div>
-              </div>
-            ))}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+        >
+          <h3 className="font-bold text-sm text-foreground mb-3">Badges</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {BADGES.map((badge, i) => {
+              const earned = false;
+              return (
+                <motion.div
+                  key={badge.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25 + i * 0.04 }}
+                  className={cn(
+                    'glass-card rounded-2xl p-4 flex items-start gap-3 transition-all duration-300',
+                    earned ? 'gold-glow border-primary/15' : 'opacity-50 hover:opacity-70'
+                  )}
+                >
+                  <div
+                    className={cn(
+                      'w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0',
+                      earned ? 'bg-gradient-gold/20' : 'bg-white/5'
+                    )}
+                  >
+                    <badge.icon
+                      className={cn(
+                        'w-5 h-5',
+                        earned ? 'text-primary drop-shadow-[0_0_6px_rgba(255,182,144,0.3)]' : 'text-muted-foreground/30'
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className={cn('font-bold text-xs', earned ? 'text-foreground' : 'text-muted-foreground/50')}>
+                        {badge.name}
+                      </h4>
+                      {earned && (
+                        <span className="text-[8px] font-bold text-primary uppercase tracking-wider">Earned</span>
+                      )}
+                    </div>
+                    <p className="text-[10px] text-muted-foreground/40 mt-0.5">{badge.desc}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
-        </motion.section>
-
-        {/* Progress */}
-        {nextBadge && (
-          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="p-4 rounded-2xl glass-card border border-amber-500/20">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center flex-shrink-0">
-                <Flame className="w-5 h-5 text-amber-400" />
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-foreground">Next: {nextBadge.label}</p>
-                <p className="text-[10px] text-muted-foreground/60">{reward.listens} / {nextBadge.require.listens} listens</p>
-                <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
-                  <div className="h-full rounded-full bg-gradient-gold transition-all" style={{ width: `${Math.min(100, (reward.listens / nextBadge.require.listens) * 100)}%` }} />
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </main>
-      <AudioPlayer />
-    </div>
+        </motion.div>
+      </div>
+    </main>
   );
 }

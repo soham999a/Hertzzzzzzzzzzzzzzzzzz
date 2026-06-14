@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Play, Pause, Heart, Radio, Loader2, Music2 } from 'lucide-react';
+import { Play, Pause, Heart, Radio, Loader2 } from 'lucide-react';
 import { RadioStation } from '@/types/radio';
 import { usePlayer } from '@/contexts/PlayerContext';
 import { cn } from '@/lib/utils';
@@ -9,7 +9,7 @@ interface StationCardProps {
   index?: number;
 }
 
-const GRADIENT_PAIRS = [
+const GRADIENT_PAIRS: [string, string][] = [
   ['#ff6b35', '#ffb690'],
   ['#f7931e', '#ffd700'],
   ['#e65c00', '#f9a825'],
@@ -20,15 +20,13 @@ const GRADIENT_PAIRS = [
   ['#c43a00', '#ff9e80'],
 ];
 
-function getStationGradient(id: string) {
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) hash = ((hash << 5) - hash) + id.charCodeAt(i);
-  return GRADIENT_PAIRS[Math.abs(hash) % GRADIENT_PAIRS.length];
+function getGradient(id: string): [string, string] {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = ((h << 5) - h) + id.charCodeAt(i);
+  return GRADIENT_PAIRS[Math.abs(h) % GRADIENT_PAIRS.length];
 }
 
-function getInitials(name: string) {
-  return name.slice(0, 2).toUpperCase();
-}
+function getInitials(name: string) { return name.slice(0, 2).toUpperCase(); }
 
 export function StationCard({ station, index = 0 }: StationCardProps) {
   const { play, pause, isPlaying, currentStation, isLoading, isFavorite, toggleFavorite } = usePlayer();
@@ -36,41 +34,41 @@ export function StationCard({ station, index = 0 }: StationCardProps) {
   const isCurrentStation = currentStation?.id === station.id;
   const isCurrentlyPlaying = isCurrentStation && isPlaying;
   const isCurrentlyLoading = isCurrentStation && isLoading;
+  const favorited = isFavorite(station.id);
+  const [g1, g2] = getGradient(station.id);
 
-  const handlePlayClick = (e: React.MouseEvent) => {
+  const handlePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (isCurrentlyPlaying) pause();
     else play(station);
   };
 
-  const handleFavoriteClick = (e: React.MouseEvent) => {
+  const handleFavorite = (e: React.MouseEvent) => {
     e.stopPropagation();
     toggleFavorite(station);
   };
 
-  const [g1, g2] = getStationGradient(station.id);
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: index * 0.04 }}
+      transition={{ duration: 0.35, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "group relative overflow-hidden rounded-2xl transition-all duration-300",
-        "glass-card hover:border-primary/25",
-        isCurrentStation && "border-primary/40 gold-glow"
+        'group relative overflow-hidden rounded-2xl transition-all duration-300',
+        'glass-card glass-card-hover',
+        isCurrentStation && 'border-primary/30 gold-glow'
       )}
     >
-      {/* Active playing indicator */}
-      {isCurrentStation && isPlaying && (
-        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-gold" />
+      {/* Playing indicator */}
+      {isCurrentlyPlaying && (
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-gold z-10" />
       )}
 
-      <div className="p-3.5 flex items-center gap-3.5">
-        {/* Station Icon - Gradient Circle */}
+      <div className="p-4 flex items-center gap-3.5">
+        {/* Icon */}
         <div className="relative flex-shrink-0">
           {station.favicon ? (
-            <div className="w-14 h-14 rounded-2xl overflow-hidden ring-2 ring-white/10">
+            <div className="w-14 h-14 rounded-2xl overflow-hidden ring-1 ring-white/10">
               <img
                 src={station.favicon}
                 alt={station.name}
@@ -83,18 +81,20 @@ export function StationCard({ station, index = 0 }: StationCardProps) {
               className="w-14 h-14 rounded-2xl flex items-center justify-center"
               style={{ background: `linear-gradient(135deg, ${g1}, ${g2})` }}
             >
-              <span className="text-white font-bold text-sm tracking-tight">{getInitials(station.name)}</span>
+              <span className="text-white font-bold text-sm tracking-tight drop-shadow-sm">
+                {getInitials(station.name)}
+              </span>
             </div>
           )}
 
-          {/* Play overlay on hover */}
+          {/* Play overlay */}
           <button
-            onClick={handlePlayClick}
+            onClick={handlePlay}
             className={cn(
-              "absolute inset-0 w-full h-full rounded-2xl flex items-center justify-center transition-all duration-200",
+              'absolute inset-0 w-full h-full rounded-2xl flex items-center justify-center transition-all duration-200',
               isCurrentStation
-                ? "bg-black/20 backdrop-blur-sm"
-                : "bg-black/0 opacity-0 group-hover:opacity-100 group-hover:bg-black/30 group-hover:backdrop-blur-sm"
+                ? 'bg-black/20 backdrop-blur-sm'
+                : 'opacity-0 group-hover:opacity-100 bg-black/0 group-hover:bg-black/30 group-hover:backdrop-blur-sm'
             )}
           >
             {isCurrentlyLoading ? (
@@ -115,15 +115,13 @@ export function StationCard({ station, index = 0 }: StationCardProps) {
                 <h3 className="font-semibold text-sm text-foreground truncate leading-tight">
                   {station.name}
                 </h3>
-                {isCurrentStation && (
-                  <span className="live-badge flex-shrink-0">Live</span>
-                )}
+                {isCurrentStation && <span className="live-badge flex-shrink-0" />}
               </div>
-              <p className="text-xs text-muted-foreground truncate mt-0.5 flex items-center gap-1">
+              <p className="text-xs text-muted-foreground/60 truncate mt-0.5 flex items-center gap-1">
                 <span>{station.country}</span>
                 {station.language && (
                   <>
-                    <span className="text-muted-foreground/40">·</span>
+                    <span className="text-muted-foreground/30">·</span>
                     <span>{station.language}</span>
                   </>
                 )}
@@ -131,15 +129,15 @@ export function StationCard({ station, index = 0 }: StationCardProps) {
             </div>
 
             <button
-              onClick={handleFavoriteClick}
+              onClick={handleFavorite}
               className="p-1.5 rounded-full hover:bg-white/5 transition-colors flex-shrink-0 -mr-1 -mt-1"
             >
               <Heart
                 className={cn(
-                  "w-4 h-4 transition-all",
-                  isFavorite(station.id)
-                    ? "text-red-400 fill-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.4)]"
-                    : "text-muted-foreground/40 hover:text-red-400"
+                  'w-4 h-4 transition-all duration-200',
+                  favorited
+                    ? 'text-red-400 fill-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.4)]'
+                    : 'text-muted-foreground/30 hover:text-red-400/70'
                 )}
               />
             </button>
@@ -147,12 +145,9 @@ export function StationCard({ station, index = 0 }: StationCardProps) {
 
           {/* Tags */}
           {station.tags && (
-            <div className="flex flex-wrap gap-1.5 mt-2">
+            <div className="flex flex-wrap gap-1.5 mt-2.5">
               {station.tags.split(',').slice(0, 3).map((tag, i) => (
-                <span
-                  key={i}
-                  className="text-[9px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/5 text-muted-foreground font-medium border border-white/5"
-                >
+                <span key={i} className="tag-pill">
                   {tag.trim()}
                 </span>
               ))}
@@ -161,22 +156,25 @@ export function StationCard({ station, index = 0 }: StationCardProps) {
         </div>
       </div>
 
-      {/* Waveform bar when active */}
-      {isCurrentStation && isPlaying && (
-        <div className="px-3.5 pb-3">
+      {/* Waveform */}
+      {isCurrentlyPlaying && (
+        <div className="px-4 pb-3.5">
           <div className="flex items-center gap-[2px] h-5">
             {Array.from({ length: 16 }).map((_, i) => (
               <motion.div
                 key={i}
                 className="flex-1 rounded-full bg-gradient-gold"
                 animate={{
-                  height: [2, 6, 12, 6, 2, 8, 4, 10, 2, 6, 12, 6, 4, 8, 2, 6][i % 16] + 'px'
+                  height: [
+                    2, 8, 14, 8, 2, 10, 18, 10, 2, 8, 14, 8, 2, 10, 18, 10
+                  ][i % 16] + 2 + 'px',
                 }}
                 transition={{
-                  duration: 0.5 + Math.random() * 0.3,
+                  duration: 0.6 + Math.random() * 0.3,
                   repeat: Infinity,
                   repeatType: 'mirror',
-                  delay: i * 0.07,
+                  delay: i * 0.06,
+                  ease: 'easeInOut',
                 }}
               />
             ))}

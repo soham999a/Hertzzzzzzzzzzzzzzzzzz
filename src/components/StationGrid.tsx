@@ -1,17 +1,14 @@
 import { motion } from 'framer-motion';
-import { Radio, Loader2 } from 'lucide-react';
-import { useStationsByRegion } from '@/hooks/useRadioStations';
+import { Radio } from 'lucide-react';
+import { RadioStation } from '@/types/radio';
 import { StationCard } from './StationCard';
-import { REGIONS } from '@/types/radio';
 
 interface StationGridProps {
-  regionId: string;
+  stations: RadioStation[];
+  isLoading: boolean;
 }
 
-export function StationGrid({ regionId }: StationGridProps) {
-  const { data: stations, isLoading, error } = useStationsByRegion(regionId);
-  const region = REGIONS.find(r => r.id === regionId);
-
+export function StationGrid({ stations, isLoading }: StationGridProps) {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -30,18 +27,6 @@ export function StationGrid({ regionId }: StationGridProps) {
             </div>
           </div>
         ))}
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20">
-        <div className="w-16 h-16 rounded-2xl glass-card flex items-center justify-center mb-4">
-          <Radio className="w-7 h-7 text-muted-foreground/60" />
-        </div>
-        <p className="text-muted-foreground font-medium">Failed to load stations</p>
-        <p className="text-sm text-muted-foreground/60 mt-1">Check your connection and try again</p>
       </div>
     );
   }

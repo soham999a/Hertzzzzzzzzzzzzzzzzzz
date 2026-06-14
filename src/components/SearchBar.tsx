@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 interface SearchBarProps {
   className?: string;
   compact?: boolean;
+  onSearch?: (query: string) => void;
 }
 
 const GRADIENT_PAIRS: [string, string][] = [
@@ -25,7 +26,7 @@ function getInitials(name: string) {
   return name.slice(0, 2).toUpperCase();
 }
 
-export function SearchBar({ className, compact }: SearchBarProps) {
+export function SearchBar({ className, compact, onSearch }: SearchBarProps) {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -81,7 +82,7 @@ export function SearchBar({ className, compact }: SearchBarProps) {
           ref={inputRef}
           type="text"
           value={query}
-          onChange={(e) => { setQuery(e.target.value); if (e.target.value.length >= 2) setIsOpen(true); else setIsOpen(false); }}
+          onChange={(e) => { const v = e.target.value; setQuery(v); onSearch?.(v); if (v.length >= 2) setIsOpen(true); else setIsOpen(false); }}
           onFocus={() => { setFocused(true); if (query.length >= 2) setIsOpen(true); }}
           onBlur={() => setFocused(false)}
           placeholder="Search stations, genres, countries..."
@@ -96,7 +97,7 @@ export function SearchBar({ className, compact }: SearchBarProps) {
           </div>
         )}
         {query && (
-          <button onClick={() => { setQuery(''); setIsOpen(false); }} className="absolute right-4 p-1 rounded-md text-muted-foreground/40 hover:text-foreground transition-colors">
+          <button onClick={() => { setQuery(''); setIsOpen(false); onSearch?.(''); }} className="absolute right-4 p-1 rounded-md text-muted-foreground/40 hover:text-foreground transition-colors">
             <X className="w-3.5 h-3.5" />
           </button>
         )}
