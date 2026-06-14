@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Frequency House Premium</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0A0A0A;
+            color: #e5e2e1;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .dot-grid {
+            background-image: radial-gradient(#ffffff0a 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .glass-card {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: border-color 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .gold-glow {
+            box-shadow: 0 0 32px rgba(255, 182, 144, 0.15);
+        }
+        .premium-gradient {
+            background: linear-gradient(135deg, #f97316 0%, #ffb690 100%);
+        }
+        .live-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 182, 144, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(255, 182, 144, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 182, 144, 0); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "background": "#131313",
+                        "on-background": "#e5e2e1",
+                        "on-primary-fixed": "#341100",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#ffddb8",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary": "#c8c6c5",
+                        "outline": "#a78b7d",
+                        "inverse-on-surface": "#313030",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container": "#201f1f",
+                        "outline-variant": "#584237",
+                        "inverse-primary": "#9d4300",
+                        "surface-variant": "#353534",
+                        "tertiary-fixed": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "on-tertiary-container": "#333232",
+                        "on-secondary-container": "#5b3800",
+                        "inverse-surface": "#e5e2e1",
+                        "on-error": "#690005",
+                        "on-primary-container": "#582200",
+                        "secondary-container": "#ee9800",
+                        "primary-container": "#f97316",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed": "#ffdbca",
+                        "on-surface-variant": "#e0c0b1",
+                        "on-secondary-fixed": "#2a1700",
+                        "primary": "#ffb690",
+                        "surface-dim": "#131313",
+                        "secondary": "#ffb95f",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-tertiary-fixed-variant": "#474646",
+                        "on-primary": "#552100",
+                        "surface-bright": "#3a3939",
+                        "tertiary-container": "#9c9a9a",
+                        "on-secondary": "#472a00",
+                        "on-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#ffb690",
+                        "surface-tint": "#ffb690",
+                        "on-tertiary": "#313030",
+                        "surface-container-highest": "#353534",
+                        "on-primary-fixed-variant": "#783200",
+                        "surface": "#131313",
+                        "on-tertiary-fixed": "#1c1b1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "20px",
+                        "container-max": "1280px",
+                        "xs": "4px",
+                        "md": "24px",
+                        "base": "8px",
+                        "sm": "12px",
+                        "lg": "40px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "mono-label": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "mono-label": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background dot-grid min-h-screen pb-28">
+<!-- Top Navigation -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-white/5 h-16 flex justify-between items-center px-gutter">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-headline-md animate-pulse">radio</span>
+<span class="font-display-lg text-headline-md tracking-tighter text-primary">Frequency House</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:opacity-80 transition-opacity">search</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-white/10 flex items-center justify-center overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx6Vi4j-ArvqFxS7ttTrNdp6BbOX3EoL4Dn4IFBsjXGsifD_CJDIkNMIw-T_3D-rRskjKNDV4aQcc1ovDWRZ7NtjRd8N4RMivBac4fcQ-Hsc-TMlFEZq4HuKqFu7mjYPQxbMQc03bLjb85FM6UXCz7Av7Y9zINuV98Wv5QWVSyDwwqdJLvPN_LaVCsy2VRtQFSkkJ29AladYdpgDBA-KVyZ95WzAG0yHSYycMoRQLg3P9PxDDVKV8szmPTNvrlO0AMclXquiEZKm6n"/>
+</div>
+</div>
+</header>
+<main class="pt-24 px-gutter container mx-auto max-w-container-max">
+<!-- Hero Section -->
+<section class="flex flex-col items-center text-center py-12 md:py-20 relative overflow-hidden">
+<!-- Atmospheric Glow Background -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full -z-10"></div>
+<div class="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full border border-primary/20 mb-6 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">crown</span>
+<span class="font-label-caps text-label-caps text-primary uppercase">Unlock Premium Experience</span>
+</div>
+<h1 class="font-display-lg text-display-lg md:text-[64px] mb-6 max-w-3xl leading-none">
+                The World's Radio, <span class="text-primary italic">Unleashed</span>
+</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl mb-8">
+                Immerse yourself in lossless HD audio and discover thousands of global stations without interruptions. Start your journey today with our limited-time offer.
+            </p>
+<div class="relative group">
+<div class="absolute -inset-0.5 premium-gradient rounded-full blur opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+<div class="relative px-8 py-4 bg-background rounded-full border border-white/10">
+<span class="font-headline-md text-headline-md text-primary">60-Day Free Trial Available</span>
+</div>
+</div>
+</section>
+<!-- Pricing Cards -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-base md:gap-lg mb-20 max-w-4xl mx-auto">
+<!-- Basic Plan -->
+<div class="glass-card rounded-xl p-8 flex flex-col items-start relative overflow-hidden">
+<div class="mb-6">
+<h3 class="font-headline-lg text-headline-lg mb-1">Basic</h3>
+<p class="font-body-sm text-on-surface-variant italic">The entry to the world of frequency.</p>
+</div>
+<div class="mb-8">
+<span class="font-display-lg text-display-lg">Free</span>
+</div>
+<ul class="space-y-4 mb-10 w-full">
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="font-body-sm">Standard Audio Quality</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="font-body-sm">Ad-supported listening</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="font-body-sm">Limited Region Access</span>
+</li>
+</ul>
+<button class="w-full py-4 rounded-xl border border-white/10 font-label-caps text-label-caps text-on-surface hover:bg-white/5 transition-colors mt-auto uppercase">Current Plan</button>
+</div>
+<!-- Pro Plan -->
+<div class="glass-card rounded-xl p-8 flex flex-col items-start relative gold-glow border-primary/30">
+<div class="absolute top-4 right-4 bg-primary text-on-primary-fixed font-label-caps text-[10px] px-3 py-1 rounded-full uppercase tracking-widest live-pulse">
+                    MOST POPULAR
+                </div>
+<div class="mb-6">
+<h3 class="font-headline-lg text-headline-lg text-primary mb-1">Pro</h3>
+<p class="font-body-sm text-on-surface-variant italic">For the dedicated audiophile.</p>
+</div>
+<div class="mb-8">
+<span class="font-display-lg text-display-lg">$9.99</span>
+<span class="text-on-surface-variant font-body-sm">/month</span>
+</div>
+<ul class="space-y-4 mb-10 w-full">
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm">Hi-Res Lossless Audio (HD)</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm">No Advertisement Interruptions</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm">Access to All Global Regions</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-body-sm">Offline Station Caching</span>
+</li>
+</ul>
+<button class="w-full py-4 rounded-xl premium-gradient text-on-primary-fixed font-headline-md text-headline-md active:scale-95 transition-transform mt-auto uppercase">Start 60-Day Trial</button>
+</div>
+</section>
+<!-- Feature Comparison Table -->
+<section class="mb-20">
+<h2 class="font-headline-lg text-headline-lg text-center mb-12">Feature Comparison</h2>
+<div class="glass-card rounded-xl overflow-hidden border-white/5">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high/50 border-b border-white/5">
+<th class="p-6 font-label-caps text-label-caps text-on-surface-variant uppercase">Feature</th>
+<th class="p-6 font-label-caps text-label-caps text-on-surface-variant uppercase text-center">Free</th>
+<th class="p-6 font-label-caps text-label-caps text-primary uppercase text-center">Premium</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr>
+<td class="p-6 font-body-lg">Global Regions</td>
+<td class="p-6 text-center text-on-surface-variant font-body-sm italic">3 Regions</td>
+<td class="p-6 text-center text-primary font-body-sm">Unlimited (150+)</td>
+</tr>
+<tr>
+<td class="p-6 font-body-lg">Audio Fidelity</td>
+<td class="p-6 text-center text-on-surface-variant font-body-sm italic">Standard (128kbps)</td>
+<td class="p-6 text-center text-primary font-body-sm">HD Lossless (Up to 24-bit)</td>
+</tr>
+<tr>
+<td class="p-6 font-body-lg">Ads</td>
+<td class="p-6 text-center text-on-surface-variant font-body-sm italic">Frequent</td>
+<td class="p-6 text-center text-primary font-body-sm">Zero Interruptions</td>
+</tr>
+<tr>
+<td class="p-6 font-body-lg">Favorites &amp; Playlists</td>
+<td class="p-6 text-center text-on-surface-variant font-body-sm italic">Up to 10</td>
+<td class="p-6 text-center text-primary font-body-sm">Unlimited</td>
+</tr>
+<tr>
+<td class="p-6 font-body-lg">Exclusive Podcasts</td>
+<td class="p-6 text-center">
+<span class="material-symbols-outlined text-error/40 text-sm">close</span>
+</td>
+<td class="p-6 text-center">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- What You Get Bento Grid -->
+<section class="mb-20">
+<h2 class="font-headline-lg text-headline-lg text-center mb-12">The Premium Standard</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="glass-card p-6 rounded-xl flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary">high_quality</span>
+</div>
+<span class="font-headline-md text-headline-md mb-2">HD Audio</span>
+<p class="font-body-sm text-on-surface-variant italic">24-bit studio quality sound.</p>
+</div>
+<div class="glass-card p-6 rounded-xl flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary">block</span>
+</div>
+<span class="font-headline-md text-headline-md mb-2">No Ads</span>
+<p class="font-body-sm text-on-surface-variant italic">Uninterrupted radio flow.</p>
+</div>
+<div class="glass-card p-6 rounded-xl flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary">public</span>
+</div>
+<span class="font-headline-md text-headline-md mb-2">All Regions</span>
+<p class="font-body-sm text-on-surface-variant italic">Listen to the entire world.</p>
+</div>
+<div class="glass-card p-6 rounded-xl flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary">support_agent</span>
+</div>
+<span class="font-headline-md text-headline-md mb-2">Priority</span>
+<p class="font-body-sm text-on-surface-variant italic">Dedicated concierge support.</p>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="mb-12 relative rounded-3xl overflow-hidden glass-card p-12 flex flex-col items-center text-center border-primary/20">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<div class="h-full w-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent"></div>
+</div>
+<span class="material-symbols-outlined text-primary text-[64px] mb-6" style="font-variation-settings: 'FILL' 1;">crown</span>
+<h2 class="font-headline-lg text-headline-lg mb-4">Ready to Elevate Your Frequency?</h2>
+<p class="font-body-lg text-on-surface-variant mb-10 max-w-lg">
+                Join thousands of listeners who have already unlocked the full potential of global radio. 60 days of pure bliss, on us.
+            </p>
+<div class="flex flex-col gap-4 w-full max-w-xs">
+<button class="w-full py-5 rounded-full premium-gradient text-on-primary-fixed font-headline-md text-headline-md flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">crown</span>
+                    Start Your Free Trial
+                </button>
+<p class="font-body-sm text-on-surface-variant italic">No credit card required. Cancel anytime.</p>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar (Hybrid Shell Implementation) -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface-container/80 backdrop-blur-xl border-t border-white/5 pb-safe shadow-2xl flex justify-around items-center h-16 px-4">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary/80 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-label-caps uppercase mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary/80 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="font-label-caps text-label-caps uppercase mt-1">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary/80 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">public</span>
+<span class="font-label-caps text-label-caps uppercase mt-1">Regions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary/80 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">podcasts</span>
+<span class="font-label-caps text-label-caps uppercase mt-1">Podcasts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+<span class="font-label-caps text-label-caps uppercase mt-1">Rewards</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions and atmospheric effects
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.querySelector('.absolute.top-1\/2');
+            if (glow) {
+                const moveX = (e.clientX - window.innerWidth / 2) * 0.05;
+                const moveY = (e.clientY - window.innerHeight / 2) * 0.05;
+                glow.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+            }
+        });
+    </script>
+</body></html>

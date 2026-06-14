@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Frequency House | Global Live Radio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #ffb690 0%, #ffb95f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-glow {
+            box-shadow: 0 0 32px rgba(255, 182, 144, 0.15);
+        }
+        .dot-grid {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        @keyframes pulse-live {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-live {
+            animation: pulse-live 2s infinite ease-in-out;
+        }
+        .waveform-bar {
+            transition: height 0.2s ease;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "background": "#131313",
+                        "on-background": "#e5e2e1",
+                        "on-primary-fixed": "#341100",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#ffddb8",
+                        "surface-container-high": "#2a2a2a",
+                        "tertiary": "#c8c6c5",
+                        "outline": "#a78b7d",
+                        "inverse-on-surface": "#313030",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container": "#201f1f",
+                        "outline-variant": "#584237",
+                        "inverse-primary": "#9d4300",
+                        "surface-variant": "#353534",
+                        "tertiary-fixed": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "on-tertiary-container": "#333232",
+                        "on-secondary-container": "#5b3800",
+                        "inverse-surface": "#e5e2e1",
+                        "on-error": "#690005",
+                        "on-primary-container": "#582200",
+                        "secondary-container": "#ee9800",
+                        "primary-container": "#f97316",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary-fixed": "#ffdbca",
+                        "on-surface-variant": "#e0c0b1",
+                        "on-secondary-fixed": "#2a1700",
+                        "primary": "#ffb690",
+                        "surface-dim": "#131313",
+                        "secondary": "#ffb95f",
+                        "secondary-fixed-dim": "#ffb95f",
+                        "on-tertiary-fixed-variant": "#474646",
+                        "on-primary": "#552100",
+                        "surface-bright": "#3a3939",
+                        "tertiary-container": "#9c9a9a",
+                        "on-secondary": "#472a00",
+                        "on-surface": "#e5e2e1",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#ffb690",
+                        "surface-tint": "#ffb690",
+                        "on-tertiary": "#313030",
+                        "surface-container-highest": "#353534",
+                        "on-primary-fixed-variant": "#783200",
+                        "surface": "#131313",
+                        "on-tertiary-fixed": "#1c1b1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "20px",
+                        "container-max": "1280px",
+                        "xs": "4px",
+                        "md": "24px",
+                        "base": "8px",
+                        "sm": "12px",
+                        "lg": "40px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "mono-label": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "mono-label": ["11px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-lg text-body-lg antialiased">
+<!-- Immersive Shader Background -->
+<div class="fixed inset-0 z-0 pointer-events-none opacity-40">
+
+<div class="absolute inset-0 dot-grid mix-blend-overlay"></div>
+</div>
+<!-- Top AppBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-white/5">
+<div class="flex justify-between items-center px-gutter h-16 w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">radio</span>
+<h1 class="font-display-lg text-headline-md tracking-tighter text-primary animate-pulse">Frequency House</h1>
+</div>
+<div class="w-10 h-10 rounded-full border border-outline-variant overflow-hidden">
+<img alt="User Profile" data-alt="A professional headshot of a sophisticated user in their late 20s, featuring soft cinematic lighting against a dark studio background. The user has a calm and focused expression, reflecting the premium and nocturnal brand identity of the Frequency House audio experience. The aesthetic is modern and high-end with subtle warm highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6P41JoQQiHBYlZ6KuHlHwAHWiXSdlcJWIuzU9kT2JUwU-jdgyfXGYDvbsLKDtEV--b2riRkH2OAmDvgb4ugCCFPhk_oly7Ra98-8rlf1B0aBZXZu9RJ7QWwINklBRnSfv49K_OOgj_-2Vb8QREtek91MfS4RnprbAVGf3pywJQ-M2A4zAMj3a2HoayBm_Yd_XJW9NvrBCu10tBGFj5-DjJ9bM6awR8dPs-Rbo0GNKuUnsDZ7Fw-lY5vsqAyMmTRh8ScLt3_HNLqw4"/>
+</div>
+</div>
+</header>
+<main class="relative z-10 pt-24 pb-48 px-gutter md:px-lg max-w-container-max mx-auto">
+<!-- Hero Section -->
+<section class="flex flex-col items-center text-center mb-16">
+<div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-surface-container-high border border-white/10 mb-6">
+<span class="material-symbols-outlined text-primary text-sm animate-spin-slow">flare</span>
+<span class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Live Radio Worldwide</span>
+</div>
+<h2 class="font-display-lg text-headline-lg-mobile md:text-display-lg gold-gradient-text mb-4">
+                Tune Into the World
+            </h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto mb-10 font-body-lg">
+                Discover high-fidelity broadcasts from every corner of the globe. Experience the nocturnal rhythm of world radio in crystal-clear quality.
+            </p>
+<div class="relative w-full max-w-xl group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full blur opacity-0 group-focus-within:opacity-100 transition duration-500"></div>
+<div class="relative flex items-center bg-surface-container-lowest border border-white/10 rounded-full px-6 py-4">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-background w-full placeholder:text-on-surface-variant" placeholder="Search by city, station, or genre..." type="text"/>
+<div class="hidden md:flex items-center gap-2 text-on-surface-variant font-mono-label px-2 py-1 rounded border border-white/10">
+<span>⌘</span><span>K</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Divider -->
+<div class="w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent mb-12"></div>
+<!-- Region Tabs -->
+<section class="mb-12">
+<div class="flex items-center gap-4 overflow-x-auto pb-4 no-scrollbar">
+<button class="flex-none px-6 py-2 rounded-full bg-primary text-on-primary font-bold gold-glow transition-all active:scale-95">All Regions</button>
+<button class="flex-none px-6 py-2 rounded-full bg-surface-container border border-white/5 hover:border-primary/50 text-on-surface-variant transition-all">India</button>
+<button class="flex-none px-6 py-2 rounded-full bg-surface-container border border-white/5 hover:border-primary/50 text-on-surface-variant transition-all">United States</button>
+<button class="flex-none px-6 py-2 rounded-full bg-surface-container border border-white/5 hover:border-primary/50 text-on-surface-variant transition-all">Europe</button>
+<button class="flex-none px-6 py-2 rounded-full bg-surface-container border border-white/5 hover:border-primary/50 text-on-surface-variant transition-all">Japan</button>
+<button class="flex-none px-6 py-2 rounded-full bg-surface-container border border-white/5 hover:border-primary/50 text-on-surface-variant transition-all">South America</button>
+<button class="flex-none px-6 py-2 rounded-full bg-surface-container border border-white/5 hover:border-primary/50 text-on-surface-variant transition-all">Africa</button>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+<!-- Station Grid (Main Column) -->
+<div class="lg:col-span-2 space-y-4">
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-headline-md text-headline-md text-on-background">Live Stations</h3>
+<button class="text-primary font-label-caps text-label-caps hover:underline">VIEW ALL</button>
+</div>
+<!-- Station Cards -->
+<div class="space-y-4">
+<!-- Station 1 -->
+<div class="glass-card p-4 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-white/5 transition-all">
+<div class="w-16 h-16 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-on-primary shadow-lg overflow-hidden">
+<span class="material-symbols-outlined text-3xl">music_note</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<h4 class="font-headline-md text-headline-md">Tokyo Lo-fi Beat</h4>
+<div class="w-2 h-2 rounded-full bg-[#4ADE80] animate-live"></div>
+</div>
+<p class="text-on-surface-variant text-body-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">public</span>
+                                Japan · Japanese
+                            </p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-mono-label text-on-surface-variant uppercase">CHILL</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-mono-label text-on-surface-variant uppercase">ELECTRONIC</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors p-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<!-- Station 2 -->
+<div class="glass-card p-4 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-white/5 transition-all">
+<div class="w-16 h-16 rounded-lg bg-gradient-to-br from-[#818CF8] to-[#C084FC] flex items-center justify-center text-white shadow-lg overflow-hidden">
+<span class="material-symbols-outlined text-3xl">speaker_group</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<h4 class="font-headline-md text-headline-md">Paris Jazz Night</h4>
+<div class="w-2 h-2 rounded-full bg-[#4ADE80] animate-live"></div>
+</div>
+<p class="text-on-surface-variant text-body-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">public</span>
+                                France · French
+                            </p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-mono-label text-on-surface-variant uppercase">JAZZ</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-mono-label text-on-surface-variant uppercase">CLASSIC</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors p-2">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<!-- Station 3 -->
+<div class="glass-card p-4 rounded-xl flex items-center gap-4 group cursor-pointer hover:bg-white/5 transition-all border-primary/20">
+<div class="relative w-16 h-16 rounded-lg bg-gradient-to-br from-[#F87171] to-[#FBBF24] flex items-center justify-center text-white shadow-lg overflow-hidden">
+<span class="material-symbols-outlined text-3xl">surround_sound</span>
+<div class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-white animate-pulse">play_circle</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2 mb-1">
+<h4 class="font-headline-md text-headline-md text-primary font-bold">Berlin Techno Underground</h4>
+<div class="w-2 h-2 rounded-full bg-[#4ADE80] animate-live"></div>
+</div>
+<p class="text-on-surface-variant text-body-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">public</span>
+                                Germany · German
+                            </p>
+<div class="flex gap-2 mt-2">
+<span class="px-2 py-0.5 rounded bg-primary/20 text-primary text-mono-label uppercase">TECHNO</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-mono-label text-on-surface-variant uppercase">LIVE DJ</span>
+</div>
+</div>
+<button class="text-error transition-colors p-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Side Column: Editor's Picks & Ad -->
+<div class="space-y-10">
+<section>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">verified</span>
+<h3 class="font-headline-md text-headline-md">Editor's Picks</h3>
+</div>
+<ul class="space-y-6">
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">globe_asia</span>
+<div>
+<p class="font-semibold text-on-background">Mumbai Indie</p>
+<p class="text-mono-label text-on-surface-variant uppercase">India</p>
+</div>
+</div>
+<div class="flex items-end gap-0.5 h-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-0.5 bg-primary waveform-bar h-2"></div>
+<div class="w-0.5 bg-primary waveform-bar h-4"></div>
+<div class="w-0.5 bg-primary waveform-bar h-1"></div>
+<div class="w-0.5 bg-primary waveform-bar h-3"></div>
+</div>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">podcasts</span>
+<div>
+<p class="font-semibold text-on-background">London Underground</p>
+<p class="text-mono-label text-on-surface-variant uppercase">UK</p>
+</div>
+</div>
+<div class="flex items-end gap-0.5 h-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-0.5 bg-primary waveform-bar h-2"></div>
+<div class="w-0.5 bg-primary waveform-bar h-4"></div>
+<div class="w-0.5 bg-primary waveform-bar h-1"></div>
+<div class="w-0.5 bg-primary waveform-bar h-3"></div>
+</div>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">radio</span>
+<div>
+<p class="font-semibold text-on-background">NYC Classic Rock</p>
+<p class="text-mono-label text-on-surface-variant uppercase">USA</p>
+</div>
+</div>
+<div class="flex items-end gap-0.5 h-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<div class="w-0.5 bg-primary waveform-bar h-2"></div>
+<div class="w-0.5 bg-primary waveform-bar h-4"></div>
+<div class="w-0.5 bg-primary waveform-bar h-1"></div>
+<div class="w-0.5 bg-primary waveform-bar h-3"></div>
+</div>
+</li>
+</ul>
+</section>
+<!-- Ad Banner -->
+<div class="relative glass-card rounded-2xl p-6 overflow-hidden border-primary/10">
+<div class="absolute inset-0 dot-grid opacity-20"></div>
+<div class="relative z-10">
+<span class="font-label-caps text-label-caps text-secondary mb-2 block">UPGRADE EXPERIENCE</span>
+<h4 class="font-headline-md text-headline-md mb-4 text-white">Ad-free. High Fidelity. 24/7.</h4>
+<button class="w-full py-3 bg-gradient-to-r from-primary to-secondary text-on-primary font-bold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all">
+                            Go Premium
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Persistent Audio Player -->
+<footer class="fixed bottom-0 left-0 right-0 z-50 bg-surface-container/90 backdrop-blur-2xl border-t border-white/5 pb-safe">
+<div class="flex flex-col md:flex-row items-center justify-between h-24 px-gutter max-w-container-max mx-auto gap-4 md:gap-0">
+<!-- Now Playing -->
+<div class="flex items-center gap-4 w-full md:w-auto">
+<div class="relative w-12 h-12 rounded bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" style="font-variation-settings: 'FILL' 1;">surround_sound</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-2">
+<span class="bg-primary/20 text-primary text-[10px] font-bold px-1.5 py-0.5 rounded tracking-tighter">LIVE</span>
+<p class="font-semibold text-on-background truncate max-w-[150px]">Berlin Techno Underground</p>
+</div>
+<p class="text-mono-label text-on-surface-variant uppercase">98.2 FM · Berlin, DE</p>
+</div>
+</div>
+<!-- Waveform Visualizer -->
+<div class="hidden md:flex items-center justify-center gap-1 h-12 px-12">
+<div class="flex items-center gap-0.5 h-8" id="waveform">
+<!-- JS will populate bars -->
+</div>
+</div>
+<!-- Player Controls -->
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-on-background transition-colors">
+<span class="material-symbols-outlined">skip_previous</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center gold-glow active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<button class="text-on-surface-variant hover:text-on-background transition-colors">
+<span class="material-symbols-outlined">skip_next</span>
+</button>
+<div class="hidden md:flex items-center gap-2 ml-4">
+<span class="material-symbols-outlined text-on-surface-variant">volume_up</span>
+<div class="w-24 h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-2/3 h-full bg-primary"></div>
+</div>
+</div>
+</div>
+</div>
+</footer>
+<!-- Bottom Navigation (Mobile) -->
+<nav class="md:hidden fixed bottom-24 left-1/2 -translate-x-1/2 z-50 glass-card rounded-full px-4 py-2 border border-white/10 shadow-2xl flex items-center gap-6">
+<button class="text-primary flex flex-col items-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+</button>
+<button class="text-on-surface-variant flex flex-col items-center">
+<span class="material-symbols-outlined">bookmark</span>
+</button>
+<button class="text-on-surface-variant flex flex-col items-center">
+<span class="material-symbols-outlined">public</span>
+</button>
+<button class="text-on-surface-variant flex flex-col items-center">
+<span class="material-symbols-outlined">podcasts</span>
+</button>
+<button class="text-on-surface-variant flex flex-col items-center">
+<span class="material-symbols-outlined">military_tech</span>
+</button>
+</nav>
+<script>
+        // Waveform Animation
+        const waveform = document.getElementById('waveform');
+        const barCount = 40;
+        
+        for (let i = 0; i < barCount; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'w-1 bg-primary/40 rounded-full waveform-bar';
+            bar.style.height = `${Math.random() * 100}%`;
+            waveform.appendChild(bar);
+        }
+
+        function updateWaveform() {
+            const bars = waveform.querySelectorAll('.waveform-bar');
+            bars.forEach(bar => {
+                const height = 20 + Math.random() * 80;
+                bar.style.height = `${height}%`;
+                // Pulse color based on height
+                bar.style.opacity = (height / 100).toString();
+            });
+            requestAnimationFrame(() => {
+                setTimeout(updateWaveform, 100);
+            });
+        }
+        updateWaveform();
+
+        // Editor's Picks waveform micro-interaction
+        document.querySelectorAll('li.group').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const bars = item.querySelectorAll('.waveform-bar');
+                bars.forEach((bar, idx) => {
+                    bar.style.animation = `pulse-live ${0.5 + idx * 0.1}s infinite ease-in-out`;
+                });
+            });
+            item.addEventListener('mouseleave', () => {
+                const bars = item.querySelectorAll('.waveform-bar');
+                bars.forEach(bar => {
+                    bar.style.animation = 'none';
+                });
+            });
+        });
+    </script>
+</body></html>
